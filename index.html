@@ -98,6 +98,27 @@ button:hover{
 .hidden{
   display:none;
 }
+
+.toast{
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  background:#16a34a;
+  color:white;
+  padding:14px 22px;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  opacity:0;
+  transform:translateY(20px);
+  transition:0.4s;
+  font-weight:bold;
+  z-index:999;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
 </style>
 </head>
 
@@ -124,16 +145,15 @@ button:hover{
 </select>
 <button onclick="generarDescripcion()">Generar Descripción</button>
 <div id="resultadoDesc" class="resultado"></div>
+<button onclick="copiarTexto('resultadoDesc')">Copiar texto</button>
 </div>
 
 <!-- TITULOS -->
 <div id="titulo" class="hidden">
 <input id="productoTitulo" placeholder="Producto">
 <button onclick="generarTitulo()">Generar Título</button>
-
 <div id="resultadoTitulo" class="resultado"></div>
 <button onclick="copiarTexto('resultadoTitulo')">Copiar texto</button>
-
 </div>
 
 <!-- CALCULADORA -->
@@ -146,18 +166,24 @@ button:hover{
 
 </div>
 
+<div id="toast" class="toast">Texto copiado correctamente ✅</div>
+
+<script>
+
 function copiarTexto(id){
   let texto = document.getElementById(id).innerText;
+  if(!texto) return;
 
-  if(!texto){
-    alert("No hay texto para copiar");
-    return;
-  }
+  navigator.clipboard.writeText(texto);
 
-  navigator.clipboard.writeText(texto).then(()=>{
-    alert("Texto copiado correctamente ✅");
-  });
-}<script>
+  let toast = document.getElementById("toast");
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+    toast.classList.remove("show");
+  },2000);
+}
+
 function mostrarTab(tab){
   document.getElementById("desc").classList.add("hidden");
   document.getElementById("titulo").classList.add("hidden");
@@ -232,8 +258,8 @@ function calcularGanancia(){
   `Ganancia: $${ganancia}
 Margen: ${margen}%`;
 }
+
 </script>
 
 </body>
 </html>
-
