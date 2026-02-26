@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>MLBoost Pro</title>
+<title>Kit Vendedor PRO</title>
 <style>
 body{
   background:#0f172a;
@@ -15,15 +15,31 @@ body{
 }
 .container{
   background:#1e293b;
-  padding:30px;
+  padding:25px;
   border-radius:12px;
-  width:400px;
+  width:420px;
   box-shadow:0 0 20px rgba(0,0,0,0.5);
+}
+.tabs{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+.tabs button{
+  flex:1;
+  padding:10px;
+  background:#334155;
+  border:none;
+  color:white;
+  cursor:pointer;
+}
+.tabs button.active{
+  background:#16a34a;
 }
 input, textarea, select{
   width:100%;
   padding:10px;
-  margin-bottom:15px;
+  margin-bottom:12px;
   border:none;
   border-radius:6px;
 }
@@ -38,84 +54,59 @@ button{
   cursor:pointer;
   margin-bottom:10px;
 }
-button:hover{
-  background:#15803d;
-}
 .resultado{
   background:#0f172a;
-  padding:15px;
+  padding:10px;
   border-radius:6px;
   white-space:pre-line;
+  margin-top:10px;
 }
+.hidden{ display:none; }
 </style>
 </head>
 <body>
 
 <div class="container">
-<h2>🚀 MLBoost Pro</h2>
-<p>Generador inteligente de descripciones que venden</p>
+<h2>🚀 Kit Vendedor PRO</h2>
 
+<div class="tabs">
+<button onclick="mostrarTab('desc')" class="active" id="tab1">Descripciones</button>
+<button onclick="mostrarTab('titulo')" id="tab2">Títulos</button>
+<button onclick="mostrarTab('calc')" id="tab3">Ganancias</button>
+</div>
+
+<!-- DESCRIPCIONES -->
+<div id="desc">
 <input id="producto" placeholder="Nombre del producto">
-<textarea id="detalle" placeholder="Detalles del producto"></textarea>
-
+<textarea id="detalle" placeholder="Detalles"></textarea>
 <select id="estilo">
-  <option value="pro">Profesional</option>
-  <option value="agresivo">Agresivo</option>
-  <option value="mini">Minimalista</option>
+<option value="pro">Profesional</option>
+<option value="agresivo">Agresivo</option>
+<option value="mini">Minimalista</option>
 </select>
+<button onclick="generarDescripcion()">Generar</button>
+<div id="resultadoDesc" class="resultado"></div>
+</div>
 
-<button onclick="generarDescripcion()">Generar descripción</button>
-<button onclick="copiarTexto()">Copiar texto</button>
+<!-- TITULOS -->
+<div id="titulo" class="hidden">
+<input id="productoTitulo" placeholder="Producto">
+<button onclick="generarTitulo()">Generar Título</button>
+<div id="resultadoTitulo" class="resultado"></div>
+</div>
 
-<div id="resultado" class="resultado"></div>
-<p id="contador"></p>
+<!-- CALCULADORA -->
+<div id="calc" class="hidden">
+<input type="number" id="costo" placeholder="Costo del producto">
+<input type="number" id="venta" placeholder="Precio de venta">
+<button onclick="calcularGanancia()">Calcular</button>
+<div id="resultadoCalc" class="resultado"></div>
+</div>
+
 </div>
 
 <script>
-function generarDescripcion(){
-  let producto = document.getElementById("producto").value;
-  let detalle = document.getElementById("detalle").value;
-  let estilo = document.getElementById("estilo").value;
-  let texto="";
+function mostrarTab(tab){
+  document.getElementById("desc").classList.add("hidden");
+  document.getElementById("titulo").classList
 
-  if(estilo==="pro"){
-    texto=`🔥 ${producto} - Calidad y Confianza
-
-✅ ${detalle}
-
-🚀 Ideal para quienes buscan rendimiento y excelente precio.
-📦 Envío rápido y seguro.
-💬 ¡Compra ahora!`;
-  }
-
-  if(estilo==="agresivo"){
-    texto=`🚨 OFERTA IMPERDIBLE 🚨
-
-${producto.toUpperCase()}
-
-🔥 ${detalle}
-
-⚡ Stock limitado.
-🛒 Compralo antes que se agote!`;
-  }
-
-  if(estilo==="mini"){
-    texto=`${producto}
-${detalle}
-Disponible ahora.`;
-  }
-
-  document.getElementById("resultado").innerText=texto;
-  document.getElementById("contador").innerText=
-  "Caracteres: "+texto.length;
-}
-
-function copiarTexto(){
-  let texto=document.getElementById("resultado").innerText;
-  navigator.clipboard.writeText(texto);
-  alert("Texto copiado correctamente");
-}
-</script>
-
-</body>
-</html>
