@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,7 +42,7 @@ body{
   padding:14px;
   border:none;
   border-radius:10px;
-  margin-top:20px;
+  margin-top:15px;
   background:#16a34a;
   color:white;
   font-weight:bold;
@@ -53,6 +52,14 @@ body{
 
 .login button:hover{
   background:#22c55e;
+}
+
+.pago-btn{
+  background:#2563eb !important;
+}
+
+.pago-btn:hover{
+  background:#3b82f6 !important;
 }
 
 /* APP */
@@ -81,6 +88,10 @@ body{
   cursor:pointer;
   border-radius:8px;
   transition:0.3s;
+}
+
+.tabs button:hover{
+  transform:translateY(-3px);
 }
 
 .tabs button.active{
@@ -161,12 +172,23 @@ button.action:hover{
 <!-- LOGIN -->
 <div class="login" id="pantallaLogin">
 <h2>🔐 Acceso PRO</h2>
+
 <input type="password" id="clave" placeholder="Ingresá tu clave">
 <button onclick="verificarClave()">Ingresar</button>
+
+<div style="margin-top:20px;">
+<p style="color:#94a3b8;font-size:14px;">¿No tenés clave?</p>
+
+<a href="https://mpago.la/24QfSgo" target="_blank">
+<button class="pago-btn">Comprar acceso por $27</button>
+</a>
+</div>
+
 </div>
 
 <!-- APP -->
 <div class="container" id="appContenido">
+
 <h2>🚀 Kit Vendedor PRO</h2>
 
 <div class="tabs">
@@ -175,7 +197,6 @@ button.action:hover{
 <button onclick="mostrarTab('calc')" id="btnCalc">Ganancias</button>
 </div>
 
-<!-- DESCRIPCIONES -->
 <div id="desc" class="tab active">
 <input id="producto" placeholder="Nombre del producto">
 <textarea id="detalle" placeholder="Detalles"></textarea>
@@ -189,7 +210,6 @@ button.action:hover{
 <button class="action" onclick="copiarTexto('resultadoDesc')">Copiar texto</button>
 </div>
 
-<!-- TITULOS -->
 <div id="titulo" class="tab">
 <input id="productoTitulo" placeholder="Producto">
 <button class="action" onclick="generarTitulo()">Generar Título</button>
@@ -197,7 +217,6 @@ button.action:hover{
 <button class="action" onclick="copiarTexto('resultadoTitulo')">Copiar texto</button>
 </div>
 
-<!-- CALCULADORA -->
 <div id="calc" class="tab">
 <input type="number" id="costo" placeholder="Costo del producto">
 <input type="number" id="venta" placeholder="Precio de venta">
@@ -211,7 +230,6 @@ button.action:hover{
 
 <script>
 
-/* CLAVES VALIDAS */
 let CLAVES_VALIDAS = [
   "ARIEL-001",
   "ARIEL-002",
@@ -221,14 +239,13 @@ let CLAVES_VALIDAS = [
 function verificarClave(){
   let clave = document.getElementById("clave").value;
 
-  if(localStorage.getItem("claveUsada_" + clave)){
+  if(localStorage.getItem("claveUsada_"+clave)){
     alert("Esta clave ya fue utilizada");
     return;
   }
 
   if(CLAVES_VALIDAS.includes(clave)){
-    localStorage.setItem("claveUsada_" + clave, "si");
-
+    localStorage.setItem("claveUsada_"+clave,"si");
     document.getElementById("pantallaLogin").style.display="none";
     document.getElementById("appContenido").style.display="block";
   } else {
@@ -236,16 +253,13 @@ function verificarClave(){
   }
 }
 
-/* PESTAÑAS */
 function mostrarTab(tab){
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
   document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
-
   document.getElementById(tab).classList.add("active");
   document.getElementById("btn"+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add("active");
 }
 
-/* DESCRIPCIONES */
 function generarDescripcion(){
   let producto=document.getElementById("producto").value;
   let detalle=document.getElementById("detalle").value;
@@ -253,75 +267,47 @@ function generarDescripcion(){
   let texto="";
 
   if(estilo==="pro"){
-    texto=`🔥 ${producto} - Calidad y Confianza
-
-✅ ${detalle}
-
-🚀 Ideal para quienes buscan rendimiento y excelente precio.
-📦 Envío rápido y seguro.
-💬 ¡Compra ahora!`;
+    texto=`🔥 ${producto} - Calidad y Confianza\n\n✅ ${detalle}\n\n🚀 Ideal para quienes buscan rendimiento.\n📦 Envío rápido y seguro.`;
   }
-
   if(estilo==="agresivo"){
-    texto=`🚨 OFERTA IMPERDIBLE 🚨
-
-${producto.toUpperCase()}
-
-🔥 ${detalle}
-
-⚡ Stock limitado.
-🛒 Compralo antes que se agote!`;
+    texto=`🚨 OFERTA IMPERDIBLE 🚨\n\n${producto.toUpperCase()}\n\n🔥 ${detalle}\n\n⚡ Stock limitado.`;
   }
-
   if(estilo==="mini"){
-    texto=`${producto}
-${detalle}
-Disponible ahora.`;
+    texto=`${producto}\n${detalle}\nDisponible ahora.`;
   }
 
   document.getElementById("resultadoDesc").innerText=texto;
 }
 
-/* TITULOS */
 function generarTitulo(){
   let producto=document.getElementById("productoTitulo").value;
-  let titulo=`${producto} | Mejor Precio | Envío Rápido`;
-  document.getElementById("resultadoTitulo").innerText=titulo;
+  document.getElementById("resultadoTitulo").innerText=
+  `${producto} | Mejor Precio | Envío Rápido`;
 }
 
-/* CALCULADORA */
 function calcularGanancia(){
   let costo=parseFloat(document.getElementById("costo").value);
   let venta=parseFloat(document.getElementById("venta").value);
-
   if(isNaN(costo)||isNaN(venta)){
     document.getElementById("resultadoCalc").innerText="Ingresá números válidos";
     return;
   }
-
   let ganancia=venta-costo;
   let margen=((ganancia/venta)*100).toFixed(2);
-
   document.getElementById("resultadoCalc").innerText=
-  `Ganancia: $${ganancia}
-Margen: ${margen}%`;
+  `Ganancia: $${ganancia}\nMargen: ${margen}%`;
 }
 
-/* COPIAR */
 function copiarTexto(id){
   let texto=document.getElementById(id).innerText;
   if(!texto) return;
-
   navigator.clipboard.writeText(texto);
-
   let toast=document.getElementById("toast");
   toast.classList.add("show");
-
-  setTimeout(()=>{ toast.classList.remove("show"); },2000);
+  setTimeout(()=>{toast.classList.remove("show");},2000);
 }
 
 </script>
 
 </body>
 </html>
-
