@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,8 +23,7 @@ body{
 }
 .tabs{
   display:flex;
-  justify-content:space-between;
-  margin-bottom:20px;
+  margin-bottom:15px;
 }
 .tabs button{
   flex:1;
@@ -70,9 +70,9 @@ button{
 <h2>🚀 Kit Vendedor PRO</h2>
 
 <div class="tabs">
-<button onclick="mostrarTab('desc')" class="active" id="tab1">Descripciones</button>
-<button onclick="mostrarTab('titulo')" id="tab2">Títulos</button>
-<button onclick="mostrarTab('calc')" id="tab3">Ganancias</button>
+<button onclick="mostrarTab('desc')" class="active" id="btnDesc">Descripciones</button>
+<button onclick="mostrarTab('titulo')" id="btnTitulo">Títulos</button>
+<button onclick="mostrarTab('calc')" id="btnCalc">Ganancias</button>
 </div>
 
 <!-- DESCRIPCIONES -->
@@ -108,5 +108,79 @@ button{
 <script>
 function mostrarTab(tab){
   document.getElementById("desc").classList.add("hidden");
-  document.getElementById("titulo").classList
+  document.getElementById("titulo").classList.add("hidden");
+  document.getElementById("calc").classList.add("hidden");
+
+  document.getElementById("btnDesc").classList.remove("active");
+  document.getElementById("btnTitulo").classList.remove("active");
+  document.getElementById("btnCalc").classList.remove("active");
+
+  document.getElementById(tab).classList.remove("hidden");
+
+  if(tab==="desc") document.getElementById("btnDesc").classList.add("active");
+  if(tab==="titulo") document.getElementById("btnTitulo").classList.add("active");
+  if(tab==="calc") document.getElementById("btnCalc").classList.add("active");
+}
+
+function generarDescripcion(){
+  let producto=document.getElementById("producto").value;
+  let detalle=document.getElementById("detalle").value;
+  let estilo=document.getElementById("estilo").value;
+  let texto="";
+
+  if(estilo==="pro"){
+    texto=`🔥 ${producto} - Calidad y Confianza
+
+✅ ${detalle}
+
+🚀 Ideal para quienes buscan rendimiento y excelente precio.
+📦 Envío rápido y seguro.
+💬 ¡Compra ahora!`;
+  }
+
+  if(estilo==="agresivo"){
+    texto=`🚨 OFERTA IMPERDIBLE 🚨
+
+${producto.toUpperCase()}
+
+🔥 ${detalle}
+
+⚡ Stock limitado.
+🛒 Compralo antes que se agote!`;
+  }
+
+  if(estilo==="mini"){
+    texto=`${producto}
+${detalle}
+Disponible ahora.`;
+  }
+
+  document.getElementById("resultadoDesc").innerText=texto;
+}
+
+function generarTitulo(){
+  let producto=document.getElementById("productoTitulo").value;
+  let titulo=`${producto} | Mejor Precio | Envío Rápido`;
+  document.getElementById("resultadoTitulo").innerText=titulo;
+}
+
+function calcularGanancia(){
+  let costo=parseFloat(document.getElementById("costo").value);
+  let venta=parseFloat(document.getElementById("venta").value);
+
+  if(isNaN(costo)||isNaN(venta)){
+    document.getElementById("resultadoCalc").innerText="Ingresá números válidos";
+    return;
+  }
+
+  let ganancia=venta-costo;
+  let margen=((ganancia/venta)*100).toFixed(2);
+
+  document.getElementById("resultadoCalc").innerText=
+  `Ganancia: $${ganancia}\nMargen: ${margen}%`;
+}
+</script>
+
+</body>
+</html>
 
