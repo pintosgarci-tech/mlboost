@@ -1,48 +1,62 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kit Vendedor PRO</title>
 
 <style>
 body{
   margin:0;
+  font-family:'Segoe UI', sans-serif;
   background:linear-gradient(135deg,#0f172a,#1e293b);
-  font-family:'Segoe UI', Arial, sans-serif;
   color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
 }
 
-/* LOGIN */
-.login{
-  background:#1e293b;
-  padding:40px;
-  border-radius:20px;
-  width:350px;
+/* PORTADA */
+.hero{
   text-align:center;
+  padding:60px 20px;
+}
+
+.hero img{
+  width:90%;
+  max-width:600px;
+  border-radius:20px;
   box-shadow:0 20px 60px rgba(0,0,0,0.6);
 }
 
-.login input{
+.hero h1{
+  margin-top:25px;
+  font-size:32px;
+}
+
+.hero p{
+  color:#94a3b8;
+}
+
+/* LOGIN */
+#pantallaLogin{
+  text-align:center;
+  padding:40px 20px;
+}
+
+input{
   width:100%;
-  padding:14px;
+  padding:12px;
+  margin-bottom:12px;
   border:none;
-  border-radius:10px;
-  margin-top:20px;
+  border-radius:8px;
   background:#0f172a;
   color:white;
 }
 
-.login button{
+button{
   width:100%;
   padding:14px;
   border:none;
-  border-radius:10px;
-  margin-top:15px;
+  border-radius:8px;
   background:#16a34a;
   color:white;
   font-weight:bold;
@@ -50,186 +64,111 @@ body{
   transition:0.3s;
 }
 
-.login button:hover{
+button:hover{
   background:#22c55e;
-}
-
-.pago-btn{
-  background:#2563eb !important;
-}
-
-.pago-btn:hover{
-  background:#3b82f6 !important;
+  transform:translateY(-2px);
 }
 
 /* APP */
-.container{
+#appContenido{
   display:none;
-  background:#1e293b;
-  padding:35px;
-  border-radius:20px;
-  width:500px;
-  max-width:95%;
-  box-shadow:0 20px 60px rgba(0,0,0,0.6);
+  max-width:600px;
+  margin:40px auto;
+  padding:20px;
 }
 
 .tabs{
   display:flex;
-  gap:6px;
+  gap:5px;
   margin-bottom:20px;
 }
 
 .tabs button{
   flex:1;
-  padding:12px;
   background:#334155;
-  border:none;
-  color:white;
-  cursor:pointer;
-  border-radius:8px;
-  transition:0.3s;
-}
-
-.tabs button:hover{
-  transform:translateY(-3px);
 }
 
 .tabs button.active{
   background:#16a34a;
-  transform:scale(1.05);
 }
 
-.tab{
-  opacity:0;
-  transform:translateY(10px);
-  transition:0.3s;
+.seccion{
   display:none;
+  animation:fade 0.4s ease-in-out;
 }
 
-.tab.active{
-  display:block;
-  opacity:1;
-  transform:translateY(0);
-}
-
-input, textarea, select{
-  width:100%;
-  padding:12px;
-  margin-bottom:14px;
-  border:none;
-  border-radius:8px;
-  background:#0f172a;
-  color:white;
-}
-
-button.action{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:8px;
-  background:#16a34a;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-  margin-bottom:12px;
-  transition:0.3s;
-}
-
-button.action:hover{
-  background:#22c55e;
+@keyframes fade{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
 }
 
 .resultado{
   background:#0f172a;
   padding:15px;
   border-radius:10px;
-  white-space:pre-line;
   margin-top:10px;
-}
-
-.toast{
-  position:fixed;
-  bottom:30px;
-  right:30px;
-  background:#16a34a;
-  padding:14px 22px;
-  border-radius:12px;
-  opacity:0;
-  transform:translateY(20px);
-  transition:0.4s;
-  font-weight:bold;
-}
-
-.toast.show{
-  opacity:1;
-  transform:translateY(0);
+  white-space:pre-line;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div class="login" id="pantallaLogin">
-<h2>🔐 Acceso PRO</h2>
+<!-- PORTADA -->
+<div class="hero">
+  <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df" alt="Kit Vendedor Pro">
+  <h1>🚀 Kit Vendedor PRO</h1>
+  <p>Generador automático para vendedores digitales</p>
 
-<input type="password" id="clave" placeholder="Ingresá tu clave">
-<button onclick="verificarClave()">Ingresar</button>
-
-<div style="margin-top:20px;">
-<p style="color:#94a3b8;font-size:14px;">¿No tenés clave?</p>
-
-<a href="https://mpago.la/24QfSgo" target="_blank">
-<button class="pago-btn">Comprar acceso por $27</button>
-</a>
+  <!-- BOTON MERCADO PAGO -->
+  <a href="https://mpago.la/24QfSgo" target="_blank">
+    <button>Comprar Acceso</button>
+  </a>
 </div>
 
+<!-- LOGIN -->
+<div id="pantallaLogin">
+  <h2>Ingresar con clave</h2>
+  <input type="text" id="clave" placeholder="Ingresa tu clave">
+  <button onclick="verificarClave()">Ingresar</button>
 </div>
 
 <!-- APP -->
-<div class="container" id="appContenido">
+<div id="appContenido">
 
-<h2>🚀 Kit Vendedor PRO</h2>
+  <div class="tabs">
+    <button class="active" onclick="mostrarTab('desc',this)">Descripciones</button>
+    <button onclick="mostrarTab('titulo',this)">Títulos</button>
+    <button onclick="mostrarTab('calc',this)">Ganancias</button>
+  </div>
 
-<div class="tabs">
-<button onclick="mostrarTab('desc')" id="btnDesc" class="active">Descripciones</button>
-<button onclick="mostrarTab('titulo')" id="btnTitulo">Títulos</button>
-<button onclick="mostrarTab('calc')" id="btnCalc">Ganancias</button>
-</div>
+  <!-- DESCRIPCIONES -->
+  <div id="desc" class="seccion" style="display:block;">
+    <input id="productoDesc" placeholder="Nombre del producto">
+    <button onclick="generarDescripcion()">Generar descripción</button>
+    <div id="resultadoDesc" class="resultado"></div>
+  </div>
 
-<div id="desc" class="tab active">
-<input id="producto" placeholder="Nombre del producto">
-<textarea id="detalle" placeholder="Detalles"></textarea>
-<select id="estilo">
-<option value="pro">Profesional</option>
-<option value="agresivo">Agresivo</option>
-<option value="mini">Minimalista</option>
-</select>
-<button class="action" onclick="generarDescripcion()">Generar Descripción</button>
-<div id="resultadoDesc" class="resultado"></div>
-<button class="action" onclick="copiarTexto('resultadoDesc')">Copiar texto</button>
-</div>
+  <!-- TITULOS -->
+  <div id="titulo" class="seccion">
+    <input id="productoTitulo" placeholder="Nombre del producto">
+    <button onclick="generarTitulo()">Generar título</button>
+    <div id="resultadoTitulo" class="resultado"></div>
+  </div>
 
-<div id="titulo" class="tab">
-<input id="productoTitulo" placeholder="Producto">
-<button class="action" onclick="generarTitulo()">Generar Título</button>
-<div id="resultadoTitulo" class="resultado"></div>
-<button class="action" onclick="copiarTexto('resultadoTitulo')">Copiar texto</button>
-</div>
-
-<div id="calc" class="tab">
-<input type="number" id="costo" placeholder="Costo del producto">
-<input type="number" id="venta" placeholder="Precio de venta">
-<button class="action" onclick="calcularGanancia()">Calcular</button>
-<div id="resultadoCalc" class="resultado"></div>
-</div>
+  <!-- CALCULADORA -->
+  <div id="calc" class="seccion">
+    <input type="number" id="precio" placeholder="Precio de venta">
+    <input type="number" id="costo" placeholder="Costo del producto">
+    <button onclick="calcularGanancia()">Calcular</button>
+    <div id="resultadoCalc" class="resultado"></div>
+  </div>
 
 </div>
-
-<div class="toast" id="toast">Texto copiado ✅</div>
 
 <script>
 
+/* CLAVES VALIDAS (uso único) */
 let CLAVES_VALIDAS = [
   "ARIEL-001",
   "ARIEL-002",
@@ -248,63 +187,39 @@ function verificarClave(){
     localStorage.setItem("claveUsada_"+clave,"si");
     document.getElementById("pantallaLogin").style.display="none";
     document.getElementById("appContenido").style.display="block";
-  } else {
+  }else{
     alert("Clave inválida");
   }
 }
 
-function mostrarTab(tab){
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-  document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
-  document.getElementById(tab).classList.add("active");
-  document.getElementById("btn"+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add("active");
+function mostrarTab(id,btn){
+  let secciones=document.querySelectorAll(".seccion");
+  secciones.forEach(s=>s.style.display="none");
+
+  document.getElementById(id).style.display="block";
+
+  let botones=document.querySelectorAll(".tabs button");
+  botones.forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
 }
 
 function generarDescripcion(){
-  let producto=document.getElementById("producto").value;
-  let detalle=document.getElementById("detalle").value;
-  let estilo=document.getElementById("estilo").value;
-  let texto="";
-
-  if(estilo==="pro"){
-    texto=`🔥 ${producto} - Calidad y Confianza\n\n✅ ${detalle}\n\n🚀 Ideal para quienes buscan rendimiento.\n📦 Envío rápido y seguro.`;
-  }
-  if(estilo==="agresivo"){
-    texto=`🚨 OFERTA IMPERDIBLE 🚨\n\n${producto.toUpperCase()}\n\n🔥 ${detalle}\n\n⚡ Stock limitado.`;
-  }
-  if(estilo==="mini"){
-    texto=`${producto}\n${detalle}\nDisponible ahora.`;
-  }
-
+  let producto=document.getElementById("productoDesc").value;
+  let texto="🔥 "+producto+" de alta calidad.\n\n✔ Ideal para uso diario.\n✔ Excelente precio.\n✔ Entrega rápida.\n\nCompra ahora antes que se agote.";
   document.getElementById("resultadoDesc").innerText=texto;
 }
 
 function generarTitulo(){
   let producto=document.getElementById("productoTitulo").value;
-  document.getElementById("resultadoTitulo").innerText=
-  `${producto} | Mejor Precio | Envío Rápido`;
+  let texto=producto+" | Calidad Premium | Envío Rápido";
+  document.getElementById("resultadoTitulo").innerText=texto;
 }
 
 function calcularGanancia(){
+  let precio=parseFloat(document.getElementById("precio").value);
   let costo=parseFloat(document.getElementById("costo").value);
-  let venta=parseFloat(document.getElementById("venta").value);
-  if(isNaN(costo)||isNaN(venta)){
-    document.getElementById("resultadoCalc").innerText="Ingresá números válidos";
-    return;
-  }
-  let ganancia=venta-costo;
-  let margen=((ganancia/venta)*100).toFixed(2);
-  document.getElementById("resultadoCalc").innerText=
-  `Ganancia: $${ganancia}\nMargen: ${margen}%`;
-}
-
-function copiarTexto(id){
-  let texto=document.getElementById(id).innerText;
-  if(!texto) return;
-  navigator.clipboard.writeText(texto);
-  let toast=document.getElementById("toast");
-  toast.classList.add("show");
-  setTimeout(()=>{toast.classList.remove("show");},2000);
+  let ganancia=precio-costo;
+  document.getElementById("resultadoCalc").innerText="Ganancia: $ "+ganancia;
 }
 
 </script>
