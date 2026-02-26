@@ -1,141 +1,121 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MLBoost - Generador Profesional</title>
-
+<title>MLBoost Pro</title>
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #e6f0ff, #f2f2f2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+body{
+  background:#0f172a;
+  font-family:Arial, sans-serif;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
-
-.container {
-  background: white;
-  width: 95%;
-  max-width: 500px;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  text-align: center;
+.container{
+  background:#1e293b;
+  padding:30px;
+  border-radius:12px;
+  width:400px;
+  box-shadow:0 0 20px rgba(0,0,0,0.5);
 }
-
-h1 {
-  margin-bottom: 5px;
+input, textarea, select{
+  width:100%;
+  padding:10px;
+  margin-bottom:15px;
+  border:none;
+  border-radius:6px;
 }
-
-p {
-  color: gray;
-  font-size: 14px;
-  margin-bottom: 20px;
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:6px;
+  background:#16a34a;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  margin-bottom:10px;
 }
-
-input, textarea {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 14px;
+button:hover{
+  background:#15803d;
 }
-
-button {
-  width: 100%;
-  padding: 12px;
-  background: #00a650;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 5px;
-}
-
-button:hover {
-  background: #008f44;
-}
-
-#resultado {
-  margin-top: 20px;
-  padding: 15px;
-  background: #f9f9f9;
-  border-radius: 10px;
-  white-space: pre-line;
-  text-align: left;
-  font-size: 14px;
-  min-height: 120px;
+.resultado{
+  background:#0f172a;
+  padding:15px;
+  border-radius:6px;
+  white-space:pre-line;
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
-  <h1>🚀 MLBoost</h1>
-  <p>Genera descripciones que venden en segundos</p>
+<h2>🚀 MLBoost Pro</h2>
+<p>Generador inteligente de descripciones que venden</p>
 
-  <input id="producto" placeholder="Nombre del producto">
-  <textarea id="caracteristicas" placeholder="Características del producto"></textarea>
+<input id="producto" placeholder="Nombre del producto">
+<textarea id="detalle" placeholder="Detalles del producto"></textarea>
 
-  <button onclick="generar()">Generar descripción</button>
+<select id="estilo">
+  <option value="pro">Profesional</option>
+  <option value="agresivo">Agresivo</option>
+  <option value="mini">Minimalista</option>
+</select>
 
-  <div id="resultado"></div>
+<button onclick="generarDescripcion()">Generar descripción</button>
+<button onclick="copiarTexto()">Copiar texto</button>
 
-  <button onclick="copiar()">Copiar texto</button>
+<div id="resultado" class="resultado"></div>
+<p id="contador"></p>
 </div>
 
 <script>
-function generar() {
+function generarDescripcion(){
   let producto = document.getElementById("producto").value;
-  let caracteristicas = document.getElementById("caracteristicas").value;
+  let detalle = document.getElementById("detalle").value;
+  let estilo = document.getElementById("estilo").value;
+  let texto="";
 
-  if(producto === "" || caracteristicas === "") {
-    alert("Completa los campos primero");
-    return;
+  if(estilo==="pro"){
+    texto=`🔥 ${producto} - Calidad y Confianza
+
+✅ ${detalle}
+
+🚀 Ideal para quienes buscan rendimiento y excelente precio.
+📦 Envío rápido y seguro.
+💬 ¡Compra ahora!`;
   }
 
-  let texto = "🔥 " + producto + " - Calidad y Confianza\n\n";
-  texto += "✅ Beneficios principales:\n";
-  texto += caracteristicas + "\n\n";
-  texto += "🚀 Ideal para quienes buscan rendimiento y excelente precio.\n";
-  texto += "📦 Envío rápido y seguro.\n";
-  texto += "💬 ¡Compra ahora y mejora tu experiencia!";
+  if(estilo==="agresivo"){
+    texto=`🚨 OFERTA IMPERDIBLE 🚨
 
-  document.getElementById("resultado").innerText = texto;
+${producto.toUpperCase()}
+
+🔥 ${detalle}
+
+⚡ Stock limitado.
+🛒 Compralo antes que se agote!`;
+  }
+
+  if(estilo==="mini"){
+    texto=`${producto}
+${detalle}
+Disponible ahora.`;
+  }
+
+  document.getElementById("resultado").innerText=texto;
+  document.getElementById("contador").innerText=
+  "Caracteres: "+texto.length;
 }
 
-function copiar() {
-  let texto = document.getElementById("resultado").innerText;
-
-  if(texto === "") {
-    alert("Primero genera una descripción");
-    return;
-  }
-
-  let textarea = document.createElement("textarea");
-  textarea.value = texto;
-  document.body.appendChild(textarea);
-  textarea.select();
-  document.execCommand("copy");
-  document.body.removeChild(textarea);
-
+function copiarTexto(){
+  let texto=document.getElementById("resultado").innerText;
+  navigator.clipboard.writeText(texto);
   alert("Texto copiado correctamente");
 }
 </script>
 
 </body>
 </html>
-✅ Ahora debería:
-
-✔ Generar texto
-✔ Copiar correctamente
-✔ Verse profesional
-✔ Funcionar en Chrome o Edge
-
-Cuando confirmes que funciona, el siguiente paso es subirla a internet gratis y tener tu propio link público 🚀
