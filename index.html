@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,12 +7,57 @@
 
 <style>
 body{
+  margin:0;
   background:linear-gradient(135deg,#0f172a,#1e293b);
   font-family:'Segoe UI', Arial, sans-serif;
   color:white;
+}
+
+/* LOGIN */
+.login{
+  height:100vh;
   display:flex;
   justify-content:center;
+  align-items:center;
+}
+
+.login-box{
+  background:#1e293b;
+  padding:40px;
+  border-radius:18px;
+  width:350px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,0.6);
+}
+
+.login-box input{
+  width:100%;
+  padding:12px;
+  margin-top:15px;
+  border:none;
+  border-radius:8px;
+  background:#0f172a;
+  color:white;
+}
+
+.login-box button{
+  width:100%;
+  padding:12px;
+  margin-top:15px;
+  border:none;
+  border-radius:8px;
+  background:#16a34a;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* APP */
+.app{
+  display:none;
   padding:60px 20px;
+  display:flex;
+  justify-content:center;
 }
 
 .container{
@@ -21,17 +67,6 @@ body{
   width:500px;
   max-width:95%;
   box-shadow:0 20px 60px rgba(0,0,0,0.6);
-}
-
-h2{
-  margin-bottom:5px;
-  font-size:24px;
-}
-
-.subtitle{
-  font-size:14px;
-  color:#94a3b8;
-  margin-bottom:20px;
 }
 
 .tabs{
@@ -48,11 +83,6 @@ h2{
   color:white;
   cursor:pointer;
   border-radius:8px;
-  transition:0.3s;
-}
-
-.tabs button:hover{
-  background:#475569;
 }
 
 .tabs button.active{
@@ -79,12 +109,6 @@ button{
   font-weight:bold;
   cursor:pointer;
   margin-bottom:12px;
-  transition:0.3s;
-}
-
-button:hover{
-  background:#22c55e;
-  transform:translateY(-2px);
 }
 
 .resultado{
@@ -95,38 +119,38 @@ button:hover{
   margin-top:10px;
 }
 
-.hidden{
-  display:none;
-}
+.hidden{ display:none; }
 
 .toast{
   position:fixed;
   bottom:30px;
   right:30px;
   background:#16a34a;
-  color:white;
   padding:14px 22px;
   border-radius:12px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.5);
   opacity:0;
-  transform:translateY(20px);
   transition:0.4s;
-  font-weight:bold;
-  z-index:999;
 }
-
-.toast.show{
-  opacity:1;
-  transform:translateY(0);
-}
+.toast.show{ opacity:1; }
 </style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
+<div class="login" id="login">
+  <div class="login-box">
+    <h2>🔐 Acceso Premium</h2>
+    <input type="password" id="clave" placeholder="Ingresar clave">
+    <button onclick="verificarClave()">Ingresar</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
 <div class="container">
+
 <h2>🚀 Kit Vendedor PRO</h2>
-<div class="subtitle">Herramientas inteligentes para vender más</div>
 
 <div class="tabs">
 <button onclick="mostrarTab('desc')" class="active" id="btnDesc">Descripciones</button>
@@ -134,7 +158,6 @@ button:hover{
 <button onclick="mostrarTab('calc')" id="btnCalc">Ganancias</button>
 </div>
 
-<!-- DESCRIPCIONES -->
 <div id="desc">
 <input id="producto" placeholder="Nombre del producto">
 <textarea id="detalle" placeholder="Detalles"></textarea>
@@ -143,32 +166,44 @@ button:hover{
 <option value="agresivo">Agresivo</option>
 <option value="mini">Minimalista</option>
 </select>
-<button onclick="generarDescripcion()">Generar Descripción</button>
+<button onclick="generarDescripcion()">Generar</button>
 <div id="resultadoDesc" class="resultado"></div>
 <button onclick="copiarTexto('resultadoDesc')">Copiar texto</button>
 </div>
 
-<!-- TITULOS -->
 <div id="titulo" class="hidden">
 <input id="productoTitulo" placeholder="Producto">
-<button onclick="generarTitulo()">Generar Título</button>
+<button onclick="generarTitulo()">Generar</button>
 <div id="resultadoTitulo" class="resultado"></div>
 <button onclick="copiarTexto('resultadoTitulo')">Copiar texto</button>
 </div>
 
-<!-- CALCULADORA -->
 <div id="calc" class="hidden">
-<input type="number" id="costo" placeholder="Costo del producto">
-<input type="number" id="venta" placeholder="Precio de venta">
-<button onclick="calcularGanancia()">Calcular Ganancia</button>
+<input type="number" id="costo" placeholder="Costo">
+<input type="number" id="venta" placeholder="Venta">
+<button onclick="calcularGanancia()">Calcular</button>
 <div id="resultadoCalc" class="resultado"></div>
 </div>
 
 </div>
+</div>
 
-<div id="toast" class="toast">Texto copiado correctamente ✅</div>
+<div id="toast" class="toast">Texto copiado ✅</div>
 
 <script>
+
+/* CAMBIÁ ESTA CLAVE */
+let CLAVE_CORRECTA = "1234";
+
+function verificarClave(){
+  let clave = document.getElementById("clave").value;
+  if(clave === CLAVE_CORRECTA){
+    document.getElementById("login").style.display="none";
+    document.getElementById("app").style.display="flex";
+  }else{
+    alert("Clave incorrecta");
+  }
+}
 
 function copiarTexto(id){
   let texto = document.getElementById(id).innerText;
@@ -178,10 +213,7 @@ function copiarTexto(id){
 
   let toast = document.getElementById("toast");
   toast.classList.add("show");
-
-  setTimeout(()=>{
-    toast.classList.remove("show");
-  },2000);
+  setTimeout(()=>{ toast.classList.remove("show"); },2000);
 }
 
 function mostrarTab(tab){
@@ -194,69 +226,29 @@ function mostrarTab(tab){
   document.getElementById("btnCalc").classList.remove("active");
 
   document.getElementById(tab).classList.remove("hidden");
-
-  if(tab==="desc") document.getElementById("btnDesc").classList.add("active");
-  if(tab==="titulo") document.getElementById("btnTitulo").classList.add("active");
-  if(tab==="calc") document.getElementById("btnCalc").classList.add("active");
+  document.getElementById("btn"+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add("active");
 }
 
 function generarDescripcion(){
-  let producto=document.getElementById("producto").value;
-  let detalle=document.getElementById("detalle").value;
-  let estilo=document.getElementById("estilo").value;
-  let texto="";
-
-  if(estilo==="pro"){
-    texto=`🔥 ${producto} - Calidad y Confianza
-
-✅ ${detalle}
-
-🚀 Ideal para quienes buscan rendimiento y excelente precio.
-📦 Envío rápido y seguro.
-💬 ¡Compra ahora!`;
-  }
-
-  if(estilo==="agresivo"){
-    texto=`🚨 OFERTA IMPERDIBLE 🚨
-
-${producto.toUpperCase()}
-
-🔥 ${detalle}
-
-⚡ Stock limitado.
-🛒 Compralo antes que se agote!`;
-  }
-
-  if(estilo==="mini"){
-    texto=`${producto}
-${detalle}
-Disponible ahora.`;
-  }
-
-  document.getElementById("resultadoDesc").innerText=texto;
+  let p=document.getElementById("producto").value;
+  let d=document.getElementById("detalle").value;
+  document.getElementById("resultadoDesc").innerText=
+  `🔥 ${p}\n\n${d}\n\n🚀 Compra ahora`;
 }
 
 function generarTitulo(){
-  let producto=document.getElementById("productoTitulo").value;
-  let titulo=`${producto} | Mejor Precio | Envío Rápido`;
-  document.getElementById("resultadoTitulo").innerText=titulo;
+  let p=document.getElementById("productoTitulo").value;
+  document.getElementById("resultadoTitulo").innerText=
+  `${p} | Mejor Precio | Envío Rápido`;
 }
 
 function calcularGanancia(){
-  let costo=parseFloat(document.getElementById("costo").value);
-  let venta=parseFloat(document.getElementById("venta").value);
-
-  if(isNaN(costo)||isNaN(venta)){
-    document.getElementById("resultadoCalc").innerText="Ingresá números válidos";
-    return;
-  }
-
-  let ganancia=venta-costo;
-  let margen=((ganancia/venta)*100).toFixed(2);
-
+  let c=parseFloat(document.getElementById("costo").value);
+  let v=parseFloat(document.getElementById("venta").value);
+  if(isNaN(c)||isNaN(v)) return;
+  let g=v-c;
   document.getElementById("resultadoCalc").innerText=
-  `Ganancia: $${ganancia}
-Margen: ${margen}%`;
+  `Ganancia: $${g}\nMargen: ${((g/v)*100).toFixed(2)}%`;
 }
 
 </script>
