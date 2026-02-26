@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -219,11 +221,18 @@ let CLAVES_VALIDAS = [
 function verificarClave(){
   let clave = document.getElementById("clave").value;
 
+  if(localStorage.getItem("claveUsada_" + clave)){
+    alert("Esta clave ya fue utilizada");
+    return;
+  }
+
   if(CLAVES_VALIDAS.includes(clave)){
+    localStorage.setItem("claveUsada_" + clave, "si");
+
     document.getElementById("pantallaLogin").style.display="none";
     document.getElementById("appContenido").style.display="block";
   } else {
-    alert("Clave incorrecta");
+    alert("Clave inválida");
   }
 }
 
@@ -233,10 +242,7 @@ function mostrarTab(tab){
   document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
 
   document.getElementById(tab).classList.add("active");
-
-  if(tab==="desc") document.getElementById("btnDesc").classList.add("active");
-  if(tab==="titulo") document.getElementById("btnTitulo").classList.add("active");
-  if(tab==="calc") document.getElementById("btnCalc").classList.add("active");
+  document.getElementById("btn"+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add("active");
 }
 
 /* DESCRIPCIONES */
