@@ -130,7 +130,10 @@ button:hover{
 <div id="titulo" class="hidden">
 <input id="productoTitulo" placeholder="Producto">
 <button onclick="generarTitulo()">Generar Título</button>
+
 <div id="resultadoTitulo" class="resultado"></div>
+<button onclick="copiarTexto('resultadoTitulo')">Copiar texto</button>
+
 </div>
 
 <!-- CALCULADORA -->
@@ -143,7 +146,18 @@ button:hover{
 
 </div>
 
-<script>
+function copiarTexto(id){
+  let texto = document.getElementById(id).innerText;
+
+  if(!texto){
+    alert("No hay texto para copiar");
+    return;
+  }
+
+  navigator.clipboard.writeText(texto).then(()=>{
+    alert("Texto copiado correctamente ✅");
+  });
+}<script>
 function mostrarTab(tab){
   document.getElementById("desc").classList.add("hidden");
   document.getElementById("titulo").classList.add("hidden");
@@ -222,3 +236,4 @@ Margen: ${margen}%`;
 
 </body>
 </html>
+
