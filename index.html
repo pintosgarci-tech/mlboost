@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,59 +10,55 @@ body{
   background:linear-gradient(135deg,#0f172a,#1e293b);
   font-family:'Segoe UI', Arial, sans-serif;
   color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
 
 /* LOGIN */
 .login{
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.login-box{
   background:#1e293b;
   padding:40px;
-  border-radius:18px;
+  border-radius:20px;
   width:350px;
   text-align:center;
   box-shadow:0 20px 60px rgba(0,0,0,0.6);
 }
 
-.login-box input{
+.login input{
   width:100%;
-  padding:12px;
-  margin-top:15px;
+  padding:14px;
   border:none;
-  border-radius:8px;
+  border-radius:10px;
+  margin-top:20px;
   background:#0f172a;
   color:white;
 }
 
-.login-box button{
+.login button{
   width:100%;
-  padding:12px;
-  margin-top:15px;
+  padding:14px;
   border:none;
-  border-radius:8px;
+  border-radius:10px;
+  margin-top:20px;
   background:#16a34a;
   color:white;
   font-weight:bold;
   cursor:pointer;
+  transition:0.3s;
+}
+
+.login button:hover{
+  background:#22c55e;
 }
 
 /* APP */
-.app{
-  display:none;
-  padding:60px 20px;
-  display:flex;
-  justify-content:center;
-}
-
 .container{
+  display:none;
   background:#1e293b;
   padding:35px;
-  border-radius:18px;
+  border-radius:20px;
   width:500px;
   max-width:95%;
   box-shadow:0 20px 60px rgba(0,0,0,0.6);
@@ -83,10 +78,25 @@ body{
   color:white;
   cursor:pointer;
   border-radius:8px;
+  transition:0.3s;
 }
 
 .tabs button.active{
   background:#16a34a;
+  transform:scale(1.05);
+}
+
+.tab{
+  opacity:0;
+  transform:translateY(10px);
+  transition:0.3s;
+  display:none;
+}
+
+.tab.active{
+  display:block;
+  opacity:1;
+  transform:translateY(0);
 }
 
 input, textarea, select{
@@ -99,7 +109,7 @@ input, textarea, select{
   color:white;
 }
 
-button{
+button.action{
   width:100%;
   padding:14px;
   border:none;
@@ -109,6 +119,11 @@ button{
   font-weight:bold;
   cursor:pointer;
   margin-bottom:12px;
+  transition:0.3s;
+}
+
+button.action:hover{
+  background:#22c55e;
 }
 
 .resultado{
@@ -119,8 +134,6 @@ button{
   margin-top:10px;
 }
 
-.hidden{ display:none; }
-
 .toast{
   position:fixed;
   bottom:30px;
@@ -129,36 +142,39 @@ button{
   padding:14px 22px;
   border-radius:12px;
   opacity:0;
+  transform:translateY(20px);
   transition:0.4s;
+  font-weight:bold;
 }
-.toast.show{ opacity:1; }
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
 </style>
 </head>
 
 <body>
 
 <!-- LOGIN -->
-<div class="login" id="login">
-  <div class="login-box">
-    <h2>🔐 Acceso Premium</h2>
-    <input type="password" id="clave" placeholder="Ingresar clave">
-    <button onclick="verificarClave()">Ingresar</button>
-  </div>
+<div class="login" id="pantallaLogin">
+<h2>🔐 Acceso PRO</h2>
+<input type="password" id="clave" placeholder="Ingresá tu clave">
+<button onclick="verificarClave()">Ingresar</button>
 </div>
 
 <!-- APP -->
-<div class="app" id="app">
-<div class="container">
-
+<div class="container" id="appContenido">
 <h2>🚀 Kit Vendedor PRO</h2>
 
 <div class="tabs">
-<button onclick="mostrarTab('desc')" class="active" id="btnDesc">Descripciones</button>
+<button onclick="mostrarTab('desc')" id="btnDesc" class="active">Descripciones</button>
 <button onclick="mostrarTab('titulo')" id="btnTitulo">Títulos</button>
 <button onclick="mostrarTab('calc')" id="btnCalc">Ganancias</button>
 </div>
 
-<div id="desc">
+<!-- DESCRIPCIONES -->
+<div id="desc" class="tab active">
 <input id="producto" placeholder="Nombre del producto">
 <textarea id="detalle" placeholder="Detalles"></textarea>
 <select id="estilo">
@@ -166,92 +182,140 @@ button{
 <option value="agresivo">Agresivo</option>
 <option value="mini">Minimalista</option>
 </select>
-<button onclick="generarDescripcion()">Generar</button>
+<button class="action" onclick="generarDescripcion()">Generar Descripción</button>
 <div id="resultadoDesc" class="resultado"></div>
-<button onclick="copiarTexto('resultadoDesc')">Copiar texto</button>
+<button class="action" onclick="copiarTexto('resultadoDesc')">Copiar texto</button>
 </div>
 
-<div id="titulo" class="hidden">
+<!-- TITULOS -->
+<div id="titulo" class="tab">
 <input id="productoTitulo" placeholder="Producto">
-<button onclick="generarTitulo()">Generar</button>
+<button class="action" onclick="generarTitulo()">Generar Título</button>
 <div id="resultadoTitulo" class="resultado"></div>
-<button onclick="copiarTexto('resultadoTitulo')">Copiar texto</button>
+<button class="action" onclick="copiarTexto('resultadoTitulo')">Copiar texto</button>
 </div>
 
-<div id="calc" class="hidden">
-<input type="number" id="costo" placeholder="Costo">
-<input type="number" id="venta" placeholder="Venta">
-<button onclick="calcularGanancia()">Calcular</button>
+<!-- CALCULADORA -->
+<div id="calc" class="tab">
+<input type="number" id="costo" placeholder="Costo del producto">
+<input type="number" id="venta" placeholder="Precio de venta">
+<button class="action" onclick="calcularGanancia()">Calcular</button>
 <div id="resultadoCalc" class="resultado"></div>
 </div>
 
 </div>
-</div>
 
-<div id="toast" class="toast">Texto copiado ✅</div>
+<div class="toast" id="toast">Texto copiado ✅</div>
 
 <script>
 
-/* CAMBIÁ ESTA CLAVE */
-let CLAVE_CORRECTA = "1234";
+/* CLAVES VALIDAS */
+let CLAVES_VALIDAS = [
+  "ARIEL-001",
+  "ARIEL-002",
+  "ARIEL-003"
+];
 
 function verificarClave(){
   let clave = document.getElementById("clave").value;
-  if(clave === CLAVE_CORRECTA){
-    document.getElementById("login").style.display="none";
-    document.getElementById("app").style.display="flex";
-  }else{
+
+  if(CLAVES_VALIDAS.includes(clave)){
+    document.getElementById("pantallaLogin").style.display="none";
+    document.getElementById("appContenido").style.display="block";
+  } else {
     alert("Clave incorrecta");
   }
 }
 
+/* PESTAÑAS */
+function mostrarTab(tab){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
+
+  document.getElementById(tab).classList.add("active");
+
+  if(tab==="desc") document.getElementById("btnDesc").classList.add("active");
+  if(tab==="titulo") document.getElementById("btnTitulo").classList.add("active");
+  if(tab==="calc") document.getElementById("btnCalc").classList.add("active");
+}
+
+/* DESCRIPCIONES */
+function generarDescripcion(){
+  let producto=document.getElementById("producto").value;
+  let detalle=document.getElementById("detalle").value;
+  let estilo=document.getElementById("estilo").value;
+  let texto="";
+
+  if(estilo==="pro"){
+    texto=`🔥 ${producto} - Calidad y Confianza
+
+✅ ${detalle}
+
+🚀 Ideal para quienes buscan rendimiento y excelente precio.
+📦 Envío rápido y seguro.
+💬 ¡Compra ahora!`;
+  }
+
+  if(estilo==="agresivo"){
+    texto=`🚨 OFERTA IMPERDIBLE 🚨
+
+${producto.toUpperCase()}
+
+🔥 ${detalle}
+
+⚡ Stock limitado.
+🛒 Compralo antes que se agote!`;
+  }
+
+  if(estilo==="mini"){
+    texto=`${producto}
+${detalle}
+Disponible ahora.`;
+  }
+
+  document.getElementById("resultadoDesc").innerText=texto;
+}
+
+/* TITULOS */
+function generarTitulo(){
+  let producto=document.getElementById("productoTitulo").value;
+  let titulo=`${producto} | Mejor Precio | Envío Rápido`;
+  document.getElementById("resultadoTitulo").innerText=titulo;
+}
+
+/* CALCULADORA */
+function calcularGanancia(){
+  let costo=parseFloat(document.getElementById("costo").value);
+  let venta=parseFloat(document.getElementById("venta").value);
+
+  if(isNaN(costo)||isNaN(venta)){
+    document.getElementById("resultadoCalc").innerText="Ingresá números válidos";
+    return;
+  }
+
+  let ganancia=venta-costo;
+  let margen=((ganancia/venta)*100).toFixed(2);
+
+  document.getElementById("resultadoCalc").innerText=
+  `Ganancia: $${ganancia}
+Margen: ${margen}%`;
+}
+
+/* COPIAR */
 function copiarTexto(id){
-  let texto = document.getElementById(id).innerText;
+  let texto=document.getElementById(id).innerText;
   if(!texto) return;
 
   navigator.clipboard.writeText(texto);
 
-  let toast = document.getElementById("toast");
+  let toast=document.getElementById("toast");
   toast.classList.add("show");
+
   setTimeout(()=>{ toast.classList.remove("show"); },2000);
-}
-
-function mostrarTab(tab){
-  document.getElementById("desc").classList.add("hidden");
-  document.getElementById("titulo").classList.add("hidden");
-  document.getElementById("calc").classList.add("hidden");
-
-  document.getElementById("btnDesc").classList.remove("active");
-  document.getElementById("btnTitulo").classList.remove("active");
-  document.getElementById("btnCalc").classList.remove("active");
-
-  document.getElementById(tab).classList.remove("hidden");
-  document.getElementById("btn"+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add("active");
-}
-
-function generarDescripcion(){
-  let p=document.getElementById("producto").value;
-  let d=document.getElementById("detalle").value;
-  document.getElementById("resultadoDesc").innerText=
-  `🔥 ${p}\n\n${d}\n\n🚀 Compra ahora`;
-}
-
-function generarTitulo(){
-  let p=document.getElementById("productoTitulo").value;
-  document.getElementById("resultadoTitulo").innerText=
-  `${p} | Mejor Precio | Envío Rápido`;
-}
-
-function calcularGanancia(){
-  let c=parseFloat(document.getElementById("costo").value);
-  let v=parseFloat(document.getElementById("venta").value);
-  if(isNaN(c)||isNaN(v)) return;
-  let g=v-c;
-  document.getElementById("resultadoCalc").innerText=
-  `Ganancia: $${g}\nMargen: ${((g/v)*100).toFixed(2)}%`;
 }
 
 </script>
 
 </body>
 </html>
+
